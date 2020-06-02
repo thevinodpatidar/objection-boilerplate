@@ -36,7 +36,7 @@ const GetUser = async (req,res)=>{
 // res : HTTP Response Object
 const GetUsers = async (req,res)=>{
     
-    let users = await User.query().skipUndefined().first();
+    let users = await User.query().skipUndefined();
     
     return okResponse(res,users,"Users Details");
 }
