@@ -15,7 +15,14 @@ class User extends Model {
       type: 'object',
       properties: {
         fullName : { type : "string" },
-        dob : { type : "date"}
+        dob : { type : "date"},
+        posts : {
+          type : "Object",
+          properties : {
+            title : { type : "string"},
+            content : { type : "text"}
+          }
+        }
       }
     };
   }
@@ -53,8 +60,16 @@ class User extends Model {
 //   }
 
   static get relationMappings(){
+    const UserPostModel = require("./userPostModel");
     return {
-
+      posts : {
+        relation : Model.HasManyRelation,
+        modelClass : UserPostModel,
+        join : {
+          from : "user.id",
+          to : "posts.created_by"
+        }
+      }
     }
   }
 
