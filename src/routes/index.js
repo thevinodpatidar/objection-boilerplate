@@ -17,6 +17,7 @@ router.delete("/user/:id",UserController.RemoveUser);
 router.post("/posts",UserPostsController.CreatePost);
 router.get("/posts",UserPostsController.GetPosts);
 router.get("/posts/:created_by",UserPostsController.GetUserPosts);
+router.get("/search",UserPostsController.SearchPost);
 
 // export router;
 module.exports = router;

@@ -1,5 +1,5 @@
 
-const {okResponse,badRequestError } = require("../../global_functions");
+const {okResponse,badRequestError,notFoundError } = require("../../global_functions");
 const Posts = require("../../models/userPostModel");
 
 const CreatePost = async(req,res)=>{
@@ -28,8 +28,22 @@ const GetUserPosts = async(req,res)=>{
 
     return okResponse(res,post,"User Posts");
 }
+
+const SearchPost = async(req,res)=>{
+    let data = req.query;
+    let posts;
+    try {
+        posts = await Posts.query().skipUndefined().where("title","ilike","%" +data.text + "%").orWhere("content","ilike","%" +data.text + "%").returning("*").throwIfNotFound();
+    } catch (error) {
+        return notFoundError(res,"No Post Found")
+    }
+   
+
+    return okResponse(res,posts,"Search Result");
+}
 module.exports = {
     CreatePost,
     GetPosts,
-    GetUserPosts
+    GetUserPosts,
+    SearchPost
 }
